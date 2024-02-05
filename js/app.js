@@ -9,12 +9,19 @@ const btnSave =  document.querySelector('#guardar-cliente');
 btnSave.addEventListener('click', saveClient);
 
 function saveClient(){
-    const tableForm = document.querySelector('#mesa').value;
-    const hourForm = document.querySelector('#hora').value;
-    const emptyFields = [tableForm, hourForm].some(value => value === '');
+    const table = document.querySelector('#mesa').value;
+    const hour = document.querySelector('#hora').value;
+    const emptyFields = [table, hour].some(value => value === '');
     if (emptyFields) {
         showAlert('All fields are required');
+        return
     }
+
+    objClient = {...objClient, table, hour};
+
+    const modalForm= document.querySelector('#formulario');
+    const modalBootstrap = bootstrap.Modal.getInstance(modalForm);
+    modalBootstrap.hide();
 }
 
 function showAlert(message) {
