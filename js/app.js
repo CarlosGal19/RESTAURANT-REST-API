@@ -81,9 +81,22 @@ function showMeals(meals) {
         category.classList.add('col-md-3')
         category.textContent = `${categories[meal.categoria]}`;
 
+        const inputAmount = document.createElement('INPUT');
+        inputAmount.type='number';
+        inputAmount.min=0;
+        inputAmount.value=0;
+        inputAmount.id=`product-${meal.id}`;
+        inputAmount.classList.add('form-control');
+
+        const add = document.createElement('DIV');
+        add.classList.add('col-md-2');
+
+        add.appendChild(inputAmount);
+
         row.appendChild(name);
         row.appendChild(price);
         row.appendChild(category);
+        row.appendChild(add);
 
         divMeals.appendChild(row);
     });
