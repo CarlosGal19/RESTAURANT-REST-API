@@ -25,6 +25,8 @@ function saveClient(){
 
     showSections();
 
+    getMeals();
+
 }
 
 function showAlert(message) {
@@ -43,4 +45,14 @@ function showAlert(message) {
 function showSections() {
     const hiddenSections = document.querySelectorAll('.d-none');
     hiddenSections.forEach(section => section.classList.remove('d-none'));
+}
+
+function getMeals() {
+    fetch('http://localhost:4000/platillos')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            return data;
+        })
+        .catch(error => console.log(error))
 }
