@@ -6,6 +6,9 @@ let objClient = {
 
 const btnSave = document.querySelector('#guardar-cliente');
 
+const content = document.querySelector('#resumen .contenido');
+
+
 btnSave.addEventListener('click', saveClient);
 
 function saveClient() {
@@ -127,5 +130,107 @@ function addMeal(product) {
         const result = order.filter(article => article.id !== product.id);
         objClient.order = {...result};
     }
-    console.log(objClient.order);
+
+    cleanHTML(content);
+
+    updateSummary();
+}
+
+function updateSummary() {
+
+    const summary = document.createElement('DIV');
+    summary.classList.add('col-md-6', 'card', 'py-5', 'px-3', 'shadow');
+
+    const table = document.createElement('p');
+    table.textContent = `Table: `;
+    table.classList.add('fw-bold');
+
+    const tableSpan = document.createElement('SPAN');
+    tableSpan.classList.add('fw-normal')
+    tableSpan.textContent=objClient.table;
+
+    const hour = document.createElement('p');
+    hour.textContent = `Hour: `;
+    hour.classList.add('fw-bold');
+
+    const hourSpan = document.createElement('SPAN');
+    hourSpan.classList.add('fw-normal')
+    hourSpan.textContent=objClient.hour;
+
+    const heading = document.createElement('H3');
+    heading.textContent='CONSUMED DISHES'
+    heading.classList.add('my-4', 'text-center');
+
+    const group = document.createElement('UL');
+    group.classList.add('list-group');
+
+    const {order} = objClient;
+
+    order.forEach(element => {
+        const {nombre, amount, precio, id} = element;
+
+        const list = document.createElement('LI');
+        list.classList.add('list-group-item');
+
+        const nameEl = document.createElement('H4');
+        nameEl.classList.add('my-4');
+        nameEl.textContent=nombre;
+
+        const amountEl = document.createElement('p');
+        amountEl.classList.add('fw-bold');
+        amountEl.textContent=`Amount: `;
+
+        const amountValue = document.createElement('SPAN');
+        amountValue.classList.add('fw-normal');
+        amountValue.textContent=amount;
+
+        amountEl.appendChild(amountValue);
+
+        const priceEl = document.createElement('p');
+        priceEl.classList.add('fw-bold');
+        priceEl.textContent='Price: ';
+
+        const priceValue = document.createElement('SPAN');
+        priceValue.classList.add('fw-normal');
+        priceValue.textContent=`$${precio}`;
+
+        priceEl.appendChild(priceValue);
+
+        const subtotalEl = document.createElement('p');
+        subtotalEl.classList.add('fw-bold');
+        subtotalEl.textContent='Subtotal: $';
+
+        const subtotalValue = document.createElement('SPAN');
+        subtotalValue.classList.add('fw-normal');
+        subtotalValue.textContent=calculateSubtotal(precio, amount);
+
+        subtotalEl.appendChild(subtotalValue);
+
+        list.appendChild(nameEl);
+        list.appendChild(amountEl);
+        list.appendChild(priceEl);
+        list.appendChild(subtotalEl);
+
+        group.appendChild(list);
+    });
+
+    table.appendChild(tableSpan);
+    hour.appendChild(hourSpan);
+
+    summary.appendChild(table);
+    summary.appendChild(hour);
+    summary.appendChild(heading);
+    summary.appendChild(group);
+
+    content.appendChild(summary);
+}
+
+function cleanHTML(spaceToClean) {
+    while (spaceToClean.firstChild) {
+      spaceToClean.removeChild(spaceToClean.firstChild);
+    }
+}
+
+function calculateSubtotal(price, amount){
+    return price*amount;
 }
