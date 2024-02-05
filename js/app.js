@@ -82,15 +82,15 @@ function showMeals(meals) {
         category.textContent = `${categories[meal.categoria]}`;
 
         const inputAmount = document.createElement('INPUT');
-        inputAmount.type='number';
-        inputAmount.min=0;
-        inputAmount.value=0;
-        inputAmount.id=`product-${meal.id}`;
+        inputAmount.type = 'number';
+        inputAmount.min = 0;
+        inputAmount.value = 0;
+        inputAmount.id = `product-${meal.id}`;
         inputAmount.classList.add('form-control');
 
-        inputAmount.onchange = function() {
+        inputAmount.onchange = function () {
             const amount = parseInt(inputAmount.value);
-            addMeal({...meal, amount});
+            addMeal({ ...meal, amount });
         }
 
         const add = document.createElement('DIV');
@@ -107,7 +107,25 @@ function showMeals(meals) {
     });
 }
 
-function addMeal(meal) {
-    const {id, nombre, precio, amount} = meal;
-    console.log(meal);
+function addMeal(product) {
+
+    let { order } = objClient;
+
+    if (product.amount > 0) {
+        if (order.some(article => article.id === product.id)) {
+            const orderUpdated = order.map(article => {
+                if (article.id === product.id) {
+                    article.amount = product.amount;
+                }
+                return article;
+            });
+            objClient.order = [...orderUpdated];
+        }else{
+            objClient.order = [...order, product];
+        }
+    }else{
+        const result = order.filter(article => article.id !== product.id);
+        objClient.order = {...result};
+    }
+    console.log(objClient.order);
 }
