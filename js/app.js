@@ -88,6 +88,11 @@ function showMeals(meals) {
         inputAmount.id=`product-${meal.id}`;
         inputAmount.classList.add('form-control');
 
+        inputAmount.onchange = function() {
+            const amount = parseInt(inputAmount.value);
+            addMeal({...meal, amount});
+        }
+
         const add = document.createElement('DIV');
         add.classList.add('col-md-2');
 
@@ -100,4 +105,9 @@ function showMeals(meals) {
 
         divMeals.appendChild(row);
     });
+}
+
+function addMeal(meal) {
+    const {id, nombre, precio, amount} = meal;
+    console.log(meal);
 }
