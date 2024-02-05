@@ -4,11 +4,11 @@ let objClient = {
     order: []
 }
 
-const btnSave =  document.querySelector('#guardar-cliente');
+const btnSave = document.querySelector('#guardar-cliente');
 
 btnSave.addEventListener('click', saveClient);
 
-function saveClient(){
+function saveClient() {
     const table = document.querySelector('#mesa').value;
     const hour = document.querySelector('#hora').value;
     const emptyFields = [table, hour].some(value => value === '');
@@ -17,9 +17,9 @@ function saveClient(){
         return
     }
 
-    objClient = {...objClient, table, hour};
+    objClient = { ...objClient, table, hour };
 
-    const modalForm= document.querySelector('#formulario');
+    const modalForm = document.querySelector('#formulario');
     const modalBootstrap = bootstrap.Modal.getInstance(modalForm);
     modalBootstrap.hide();
 
@@ -34,7 +34,7 @@ function showAlert(message) {
     if (!alertExist) {
         const alert = document.createElement('DIV');
         alert.classList.add('invalid-feedback', 'd-block', 'text-center');
-        alert.textContent=message;
+        alert.textContent = message;
         document.querySelector('.modal-body form').appendChild(alert);
         setTimeout(() => {
             alert.remove();
@@ -50,9 +50,41 @@ function showSections() {
 function getMeals() {
     fetch('http://localhost:4000/platillos')
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            return data;
+        .then(meals => {
+            showMeals(meals);
         })
         .catch(error => console.log(error))
+}
+
+const categories = {
+    1: 'Food',
+    2: 'Drink',
+    3: 'Dessert'
+}
+
+function showMeals(meals) {
+    const divMeals = document.querySelector('#platillos .contenido');
+
+    meals.forEach(meal => {
+        const row = document.createElement('DIV');
+        row.classList.add('row', 'py-3', 'border-top');
+
+        const name = document.createElement('DIV');
+        name.classList.add('col-md-4');
+        name.textContent = meal.nombre;
+
+        const price = document.createElement('DIV');
+        price.classList.add('col-md-3', 'fw-bold')
+        price.textContent = `$${meal.precio}`;
+
+        const category = document.createElement('DIV');
+        category.classList.add('col-md-3')
+        category.textContent = `${categories[meal.categoria]}`;
+
+        row.appendChild(name);
+        row.appendChild(price);
+        row.appendChild(category);
+
+        divMeals.appendChild(row);
+    });
 }
