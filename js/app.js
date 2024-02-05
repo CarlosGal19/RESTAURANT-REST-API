@@ -123,12 +123,12 @@ function addMeal(product) {
                 return article;
             });
             objClient.order = [...orderUpdated];
-        }else{
+        } else {
             objClient.order = [...order, product];
         }
-    }else{
+    } else {
         const result = order.filter(article => article.id !== product.id);
-        objClient.order = {...result};
+        objClient.order = { ...result };
     }
 
     cleanHTML(content);
@@ -147,7 +147,7 @@ function updateSummary() {
 
     const tableSpan = document.createElement('SPAN');
     tableSpan.classList.add('fw-normal')
-    tableSpan.textContent=objClient.table;
+    tableSpan.textContent = objClient.table;
 
     const hour = document.createElement('p');
     hour.textContent = `Hour: `;
@@ -155,61 +155,70 @@ function updateSummary() {
 
     const hourSpan = document.createElement('SPAN');
     hourSpan.classList.add('fw-normal')
-    hourSpan.textContent=objClient.hour;
+    hourSpan.textContent = objClient.hour;
 
     const heading = document.createElement('H3');
-    heading.textContent='CONSUMED DISHES'
+    heading.textContent = 'CONSUMED DISHES'
     heading.classList.add('my-4', 'text-center');
 
     const group = document.createElement('UL');
     group.classList.add('list-group');
 
-    const {order} = objClient;
+    const { order } = objClient;
 
     order.forEach(element => {
-        const {nombre, amount, precio, id} = element;
+        const { nombre, amount, precio, id } = element;
 
         const list = document.createElement('LI');
         list.classList.add('list-group-item');
 
         const nameEl = document.createElement('H4');
         nameEl.classList.add('my-4');
-        nameEl.textContent=nombre;
+        nameEl.textContent = nombre;
 
         const amountEl = document.createElement('p');
         amountEl.classList.add('fw-bold');
-        amountEl.textContent=`Amount: `;
+        amountEl.textContent = `Amount: `;
 
         const amountValue = document.createElement('SPAN');
         amountValue.classList.add('fw-normal');
-        amountValue.textContent=amount;
+        amountValue.textContent = amount;
 
         amountEl.appendChild(amountValue);
 
         const priceEl = document.createElement('p');
         priceEl.classList.add('fw-bold');
-        priceEl.textContent='Price: ';
+        priceEl.textContent = 'Price: ';
 
         const priceValue = document.createElement('SPAN');
         priceValue.classList.add('fw-normal');
-        priceValue.textContent=`$${precio}`;
+        priceValue.textContent = `$${precio}`;
 
         priceEl.appendChild(priceValue);
 
         const subtotalEl = document.createElement('p');
         subtotalEl.classList.add('fw-bold');
-        subtotalEl.textContent='Subtotal: $';
+        subtotalEl.textContent = 'Subtotal: $';
 
         const subtotalValue = document.createElement('SPAN');
         subtotalValue.classList.add('fw-normal');
-        subtotalValue.textContent=calculateSubtotal(precio, amount);
+        subtotalValue.textContent = calculateSubtotal(precio, amount);
 
         subtotalEl.appendChild(subtotalValue);
+
+        const btnRemove = document.createElement('BUTTON');
+        btnRemove.classList.add('btn', 'btn-danger');
+        btnRemove.textContent = 'Remove meal';
+
+        btnRemove.onclick = () => {
+            removeMeal(id);
+        }
 
         list.appendChild(nameEl);
         list.appendChild(amountEl);
         list.appendChild(priceEl);
         list.appendChild(subtotalEl);
+        list.appendChild(btnRemove);
 
         group.appendChild(list);
     });
@@ -227,10 +236,23 @@ function updateSummary() {
 
 function cleanHTML(spaceToClean) {
     while (spaceToClean.firstChild) {
-      spaceToClean.removeChild(spaceToClean.firstChild);
+        spaceToClean.removeChild(spaceToClean.firstChild);
     }
 }
 
-function calculateSubtotal(price, amount){
-    return price*amount;
+function calculateSubtotal(price, amount) {
+    return price * amount;
+}
+
+
+function removeMeal(id) {
+    const {order} =objClient;
+
+    const result = order.filter(article => article.id !== id);
+
+    objClient.order=[...result];
+
+    cleanHTML(content);
+
+    updateSummary();
 }
