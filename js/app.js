@@ -17,4 +17,15 @@ function saveClient(){
     }
 }
 
-
+function showAlert(message) {
+    const alertExist = document.querySelector('.invalid-feedback')
+    if (!alertExist) {
+        const alert = document.createElement('DIV');
+        alert.classList.add('invalid-feedback', 'd-block', 'text-center');
+        alert.textContent=message;
+        document.querySelector('.modal-body form').appendChild(alert);
+        setTimeout(() => {
+            alert.remove();
+        }, 3000);
+    }
+}
