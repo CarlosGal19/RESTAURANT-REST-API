@@ -17,4 +17,9 @@ function saveClient(){
     }
 }
 
-
+function showAlert(message) {
+    const alert = document.createElement('DIV');
+    alert.classList.add('invalid-feedback', 'd-block', 'text-center');
+    alert.textContent=message;
+    document.querySelector('.modal-body form').appendChild(alert);
+}
