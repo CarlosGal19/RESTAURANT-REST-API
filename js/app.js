@@ -22,6 +22,9 @@ function saveClient(){
     const modalForm= document.querySelector('#formulario');
     const modalBootstrap = bootstrap.Modal.getInstance(modalForm);
     modalBootstrap.hide();
+
+    showSections();
+
 }
 
 function showAlert(message) {
@@ -35,4 +38,9 @@ function showAlert(message) {
             alert.remove();
         }, 3000);
     }
+}
+
+function showSections() {
+    const hiddenSections = document.querySelectorAll('.d-none');
+    hiddenSections.forEach(section => section.classList.remove('d-none'));
 }
