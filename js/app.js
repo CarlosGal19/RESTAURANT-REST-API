@@ -146,7 +146,7 @@ function addMeal(product) {
 function updateSummary() {
 
     const summary = document.createElement('DIV');
-    summary.classList.add('col-md-6', 'card', 'py-5', 'px-3', 'shadow');
+    summary.classList.add('col-md-6', 'card', 'py-2', 'px-3', 'shadow');
 
     const table = document.createElement('p');
     table.textContent = `Table: `;
@@ -233,12 +233,14 @@ function updateSummary() {
     table.appendChild(tableSpan);
     hour.appendChild(hourSpan);
 
+    summary.appendChild(heading);
     summary.appendChild(table);
     summary.appendChild(hour);
-    summary.appendChild(heading);
     summary.appendChild(group);
 
     content.appendChild(summary);
+
+    showFormPerk();
 }
 
 function cleanHTML(spaceToClean) {
@@ -278,4 +280,97 @@ function showEmptySummary() {
     messageEmpty.textContent='Añade los elementos del pedido';
 
     content.appendChild(messageEmpty);
+}
+
+function showFormPerk() {
+    const formPerk = document.createElement('DIV');
+    formPerk.classList.add('col-md-6', 'form');
+
+    const divForm = document.createElement('DIV');
+    divForm.classList.add('card', 'py-2', 'px-3', 'shadow');
+
+    const heading = document.createElement('H3');
+    heading.classList.add('my-4', 'text-center');
+    heading.textContent='Perk';
+
+    const rad10 = document.createElement('INPUT');
+    rad10.type='radio';
+    rad10.name='perk';
+    rad10.value=10;
+    rad10.classList.add('form-check-input');
+
+    rad10.onclick = () => {
+        calculateFinal();
+    }
+
+    const lblRad10 = document.createElement('label');
+    lblRad10.textContent='10%';
+    lblRad10.classList.add('form-check-label');
+
+    const divRad10 = document.createElement('DIV');
+    divRad10.classList.add('form-check');
+
+    const rad25 = document.createElement('INPUT');
+    rad25.type='radio';
+    rad25.name='perk';
+    rad25.value=25;
+    rad25.classList.add('form-check-input');
+
+    rad25.onclick = () => {
+        calculateFinal();
+    }
+
+    const lblRad25 = document.createElement('label');
+    lblRad25.textContent='25%';
+    lblRad25.classList.add('form-check-label');
+
+    const divRad25 = document.createElement('DIV');
+    divRad25.classList.add('form-check');
+
+    const rad50 = document.createElement('INPUT');
+    rad50.type='radio';
+    rad50.name='perk';
+    rad50.value=50;
+    rad50.classList.add('form-check-input');
+
+    rad50.onclick = () => {
+        calculateFinal();
+    }
+
+    const lblRad50 = document.createElement('label');
+    lblRad50.textContent='50%';
+    lblRad50.classList.add('form-check-label');
+
+    const divRad50 = document.createElement('DIV');
+    divRad50.classList.add('form-check');
+
+    divRad10.appendChild(rad10);
+    divRad10.appendChild(lblRad10);
+    divRad25.appendChild(rad25);
+    divRad25.appendChild(lblRad25);
+    divRad50.appendChild(rad50);
+    divRad50.appendChild(lblRad50);
+
+    divForm.appendChild(heading);
+    divForm.appendChild(divRad10);
+    divForm.appendChild(divRad25);
+    divForm.appendChild(divRad50);
+    formPerk.appendChild(divForm);
+    content.appendChild(formPerk);
+}
+
+function calculateFinal() {
+    const {order} = objClient;
+
+    let subtotal = 0;
+
+    order.forEach(element => {
+        subtotal = element.amount * element.precio;
+    });
+
+    const perkSelected = document.querySelector('[name="perk"]:checked').value;
+
+    const total = subtotal + (subtotal * perkSelected/100);
+
+    console.log(typeof(total))
 }
