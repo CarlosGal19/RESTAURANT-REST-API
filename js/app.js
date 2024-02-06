@@ -133,7 +133,11 @@ function addMeal(product) {
 
     cleanHTML(content);
 
-    updateSummary();
+    if (objClient.order.length) {
+        updateSummary();
+    }else{
+        showEmptySummary();
+    }
 }
 
 function updateSummary() {
@@ -254,5 +258,20 @@ function removeMeal(id) {
 
     cleanHTML(content);
 
-    updateSummary();
+    if (objClient.order.length) {
+        updateSummary();
+    }else{
+        showEmptySummary();
+    }
+
+    const removedProduct = document.querySelector(`#product-${id}`);
+    removedProduct.value=0;
+}
+
+function showEmptySummary() {
+    const messageEmpty = document.createElement('P');
+    messageEmpty.classList.add('text-center');
+    messageEmpty.textContent='Añade los elementos del pedido';
+
+    content.appendChild(messageEmpty);
 }
