@@ -1,3 +1,9 @@
+/*
+    json-server --watch db.json --port 4000
+    That is the command needed to can create the API using JSON-SERVER
+    It is necessary to have JSON-SERVER and npm installed
+*/
+
 // Object that will have the data input
 let objClient = {
     table: '',
