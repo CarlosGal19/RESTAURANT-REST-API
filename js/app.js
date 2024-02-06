@@ -1,3 +1,4 @@
+// Object that will have the data input
 let objClient = {
     table: '',
     hour: '',
@@ -110,6 +111,7 @@ function showMeals(meals) {
     });
 }
 
+// Function that validated if the meal is already in the array of the object objClient or it is going to be appended
 function addMeal(product) {
 
     let { order } = objClient;
@@ -140,6 +142,7 @@ function addMeal(product) {
     }
 }
 
+// It shows the array of orders in DOM
 function updateSummary() {
 
     const summary = document.createElement('DIV');
@@ -248,7 +251,7 @@ function calculateSubtotal(price, amount) {
     return price * amount;
 }
 
-
+// It removes a meal of DOM and array when the button is clicked
 function removeMeal(id) {
     const {order} =objClient;
 
@@ -268,6 +271,7 @@ function removeMeal(id) {
     removedProduct.value=0;
 }
 
+// It shows a message if the consumption section is empty again
 function showEmptySummary() {
     const messageEmpty = document.createElement('P');
     messageEmpty.classList.add('text-center');
