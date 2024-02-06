@@ -360,6 +360,7 @@ function showFormPerk() {
 }
 
 function calculateFinal() {
+
     const {order} = objClient;
 
     let subtotal = 0;
@@ -370,7 +371,59 @@ function calculateFinal() {
 
     const perkSelected = document.querySelector('[name="perk"]:checked').value;
 
-    const total = subtotal + (subtotal * perkSelected/100);
+    const perk = subtotal * perkSelected/100;
 
-    console.log(typeof(total))
+    const total = subtotal + perk;
+
+    showTotal(subtotal, total, perk);
+}
+
+function showTotal(subtotal, total, perk) {
+
+    const divTotals = document.createElement('DIV');
+    divTotals.classList.add('total-pay');
+
+    const subTotalParagraph = document.createElement('P');
+    subTotalParagraph.classList.add('fs-4', 'fw-bold', 'mt-2');
+    subTotalParagraph.textContent = 'Subtotal: $';
+
+    const subTotalSpan = document.createElement('SPAN');
+    subTotalSpan.classList.add('fw-normal');
+    subTotalSpan.textContent =subtotal;
+
+    subTotalParagraph.appendChild(subTotalSpan);
+
+    const perkParagraph = document.createElement('P');
+    perkParagraph.classList.add('fs-4', 'fw-bold', 'mt-2');
+    perkParagraph.textContent = 'Perk: $';
+
+    const perkSpan = document.createElement('SPAN');
+    perkSpan.classList.add('fw-normal');
+    perkSpan.textContent = perk;
+
+    perkParagraph.appendChild(perkSpan);
+
+    const totalParagraph = document.createElement('P');
+    totalParagraph.classList.add('fs-4', 'fw-bold', 'mt-2');
+    totalParagraph.textContent = 'Total: $';
+
+    const totalSpan = document.createElement('SPAN');
+    totalSpan.classList.add('fw-normal');
+    totalSpan.textContent = total;
+
+    totalParagraph.appendChild(totalSpan);
+
+    const totalExist = document.querySelector('.total-pay');
+
+    if (totalExist) {
+        totalExist.remove();
+    }
+
+    divTotals.appendChild(subTotalParagraph);
+    divTotals.appendChild(perkParagraph);
+    divTotals.appendChild(totalParagraph);
+
+    const form = document.querySelector('.form > div');
+
+    form.appendChild(divTotals);
 }
