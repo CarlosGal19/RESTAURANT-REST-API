@@ -18,7 +18,7 @@ function saveClient() {
     const emptyFields = [table, hour].some(value => value === '');
     if (emptyFields) {
         showAlert('All fields are required');
-        return
+        return;
     }
 
     objClient = { ...objClient, table, hour };
@@ -34,7 +34,7 @@ function saveClient() {
 }
 
 function showAlert(message) {
-    const alertExist = document.querySelector('.invalid-feedback')
+    const alertExist = document.querySelector('.invalid-feedback');
     if (!alertExist) {
         const alert = document.createElement('DIV');
         alert.classList.add('invalid-feedback', 'd-block', 'text-center');
@@ -78,11 +78,11 @@ function showMeals(meals) {
         name.textContent = meal.nombre;
 
         const price = document.createElement('DIV');
-        price.classList.add('col-md-3', 'fw-bold')
+        price.classList.add('col-md-3', 'fw-bold');
         price.textContent = `$${meal.precio}`;
 
         const category = document.createElement('DIV');
-        category.classList.add('col-md-3')
+        category.classList.add('col-md-3');
         category.textContent = `${categories[meal.categoria]}`;
 
         const inputAmount = document.createElement('INPUT');
@@ -137,7 +137,7 @@ function addMeal(product) {
 
     if (objClient.order.length) {
         updateSummary();
-    }else{
+    } else {
         showEmptySummary();
     }
 }
@@ -255,29 +255,29 @@ function calculateSubtotal(price, amount) {
 
 // It removes a meal of DOM and array when the button is clicked
 function removeMeal(id) {
-    const {order} =objClient;
+    const { order } = objClient;
 
     const result = order.filter(article => article.id !== id);
 
-    objClient.order=[...result];
+    objClient.order = [...result];
 
     cleanHTML(content);
 
     if (objClient.order.length) {
         updateSummary();
-    }else{
+    } else {
         showEmptySummary();
     }
 
     const removedProduct = document.querySelector(`#product-${id}`);
-    removedProduct.value=0;
+    removedProduct.value = 0;
 }
 
 // It shows a message if the consumption section is empty again
 function showEmptySummary() {
     const messageEmpty = document.createElement('P');
     messageEmpty.classList.add('text-center');
-    messageEmpty.textContent='Añade los elementos del pedido';
+    messageEmpty.textContent = 'Añade los elementos del pedido';
 
     content.appendChild(messageEmpty);
 }
@@ -291,12 +291,12 @@ function showFormPerk() {
 
     const heading = document.createElement('H3');
     heading.classList.add('my-4', 'text-center');
-    heading.textContent='Perk';
+    heading.textContent = 'Perk';
 
     const rad10 = document.createElement('INPUT');
-    rad10.type='radio';
-    rad10.name='perk';
-    rad10.value=10;
+    rad10.type = 'radio';
+    rad10.name = 'perk';
+    rad10.value = 10;
     rad10.classList.add('form-check-input');
 
     rad10.onclick = () => {
@@ -304,16 +304,16 @@ function showFormPerk() {
     }
 
     const lblRad10 = document.createElement('label');
-    lblRad10.textContent='10%';
+    lblRad10.textContent = '10%';
     lblRad10.classList.add('form-check-label');
 
     const divRad10 = document.createElement('DIV');
     divRad10.classList.add('form-check');
 
     const rad25 = document.createElement('INPUT');
-    rad25.type='radio';
-    rad25.name='perk';
-    rad25.value=25;
+    rad25.type = 'radio';
+    rad25.name = 'perk';
+    rad25.value = 25;
     rad25.classList.add('form-check-input');
 
     rad25.onclick = () => {
@@ -321,16 +321,16 @@ function showFormPerk() {
     }
 
     const lblRad25 = document.createElement('label');
-    lblRad25.textContent='25%';
+    lblRad25.textContent = '25%';
     lblRad25.classList.add('form-check-label');
 
     const divRad25 = document.createElement('DIV');
     divRad25.classList.add('form-check');
 
     const rad50 = document.createElement('INPUT');
-    rad50.type='radio';
-    rad50.name='perk';
-    rad50.value=50;
+    rad50.type = 'radio';
+    rad50.name = 'perk';
+    rad50.value = 50;
     rad50.classList.add('form-check-input');
 
     rad50.onclick = () => {
@@ -338,7 +338,7 @@ function showFormPerk() {
     }
 
     const lblRad50 = document.createElement('label');
-    lblRad50.textContent='50%';
+    lblRad50.textContent = '50%';
     lblRad50.classList.add('form-check-label');
 
     const divRad50 = document.createElement('DIV');
@@ -361,7 +361,7 @@ function showFormPerk() {
 
 function calculateFinal() {
 
-    const {order} = objClient;
+    const { order } = objClient;
 
     let subtotal = 0;
 
@@ -371,7 +371,7 @@ function calculateFinal() {
 
     const perkSelected = document.querySelector('[name="perk"]:checked').value;
 
-    const perk = subtotal * perkSelected/100;
+    const perk = subtotal * perkSelected / 100;
 
     const total = subtotal + perk;
 
@@ -389,7 +389,7 @@ function showTotal(subtotal, total, perk) {
 
     const subTotalSpan = document.createElement('SPAN');
     subTotalSpan.classList.add('fw-normal');
-    subTotalSpan.textContent =subtotal;
+    subTotalSpan.textContent = subtotal;
 
     subTotalParagraph.appendChild(subTotalSpan);
 
