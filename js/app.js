@@ -5,13 +5,16 @@ let objClient = {
     order: []
 }
 
+// Button from modal
 const btnSave = document.querySelector('#guardar-cliente');
 
+// Section of content that will show the meals of the order
 const content = document.querySelector('#resumen .contenido');
 
 
 btnSave.addEventListener('click', saveClient);
 
+// It takes the values from the modal
 function saveClient() {
     const table = document.querySelector('#mesa').value;
     const hour = document.querySelector('#hora').value;
@@ -21,14 +24,17 @@ function saveClient() {
         return;
     }
 
+    // It adds the table and hour from the form to object
     objClient = { ...objClient, table, hour };
 
     const modalForm = document.querySelector('#formulario');
     const modalBootstrap = bootstrap.Modal.getInstance(modalForm);
     modalBootstrap.hide();
 
+    // Show the perk and meals section
     showSections();
 
+    // Get the meals from the API
     getMeals();
 
 }
@@ -60,12 +66,14 @@ function getMeals() {
         .catch(error => console.log(error))
 }
 
+// Object which helps to show the categories in the section of meals selected
 const categories = {
     1: 'Food',
     2: 'Drink',
     3: 'Dessert'
 }
 
+// It prints in DOM each meal, with its name, price, category and an input for knowing the amount
 function showMeals(meals) {
     const divMeals = document.querySelector('#platillos .contenido');
 
@@ -89,6 +97,7 @@ function showMeals(meals) {
         inputAmount.type = 'number';
         inputAmount.min = 0;
         inputAmount.value = 0;
+        // Id is given for help to delete the meal when the button is clicked
         inputAmount.id = `product-${meal.id}`;
         inputAmount.classList.add('form-control');
 
@@ -116,7 +125,9 @@ function addMeal(product) {
 
     let { order } = objClient;
 
+    //  If the amount is greater than 0, adds it, else it means that it is 0 and is deleted
     if (product.amount > 0) {
+        // If the article already is on the array its amount increase, else, the product is added
         if (order.some(article => article.id === product.id)) {
             const orderUpdated = order.map(article => {
                 if (article.id === product.id) {
@@ -135,6 +146,7 @@ function addMeal(product) {
 
     cleanHTML(content);
 
+    // If the array has elements, show them in DOM, else, show a meesage
     if (objClient.order.length) {
         updateSummary();
     } else {
@@ -142,7 +154,7 @@ function addMeal(product) {
     }
 }
 
-// It shows the array of orders in DOM
+// It shows the array of orders in DOM and data about the order as hour, table and a list of name, amount, price, subtotal and a button for delete it
 function updateSummary() {
 
     const summary = document.createElement('DIV');
@@ -253,7 +265,7 @@ function calculateSubtotal(price, amount) {
     return price * amount;
 }
 
-// It removes a meal of DOM and array when the button is clicked
+// It removes a meal of DOM and array when the button is clicked, besides, it updates the meals selected section
 function removeMeal(id) {
     const { order } = objClient;
 
@@ -273,7 +285,7 @@ function removeMeal(id) {
     removedProduct.value = 0;
 }
 
-// It shows a message if the consumption section is empty again
+// It shows a message if the meals selected section is empty again
 function showEmptySummary() {
     const messageEmpty = document.createElement('P');
     messageEmpty.classList.add('text-center');
@@ -282,6 +294,7 @@ function showEmptySummary() {
     content.appendChild(messageEmpty);
 }
 
+// It shows in DOM the form to compute the total based on the perk selected
 function showFormPerk() {
     const formPerk = document.createElement('DIV');
     formPerk.classList.add('col-md-6', 'form');
@@ -359,6 +372,7 @@ function showFormPerk() {
     content.appendChild(formPerk);
 }
 
+// It calculates the total and perk that is selected in the form
 function calculateFinal() {
 
     const { order } = objClient;
@@ -378,6 +392,7 @@ function calculateFinal() {
     showTotal(subtotal, total, perk);
 }
 
+// It shows in DOM the total, subtotal and perk
 function showTotal(subtotal, total, perk) {
 
     const divTotals = document.createElement('DIV');
